@@ -1,4 +1,4 @@
-package sia.pizzacloud.model;
+package pizzas;
 
 import lombok.Data;
 

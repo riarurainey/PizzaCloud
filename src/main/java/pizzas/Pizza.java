@@ -1,6 +1,7 @@
-package sia.pizzacloud.model;
+package pizzas;
 
 import lombok.Data;
+import pizzas.Ingredient;
 
 import java.util.List;
 

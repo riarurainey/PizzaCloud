@@ -1,4 +1,4 @@
-package sia.pizzacloud.controllers;
+package pizzas;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

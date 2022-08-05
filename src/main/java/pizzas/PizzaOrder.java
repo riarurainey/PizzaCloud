@@ -1,4 +1,4 @@
-package sia.pizzacloud.model;
+package pizzas;
 
 import lombok.Data;
 
@@ -9,10 +9,10 @@ import java.util.List;
 public class PizzaOrder {
     PizzaDelivery pizzaDelivery;
     PizzaPayment pizzaPayment;
-    private List<Pizza> pizzaList = new ArrayList<>();
+    private List<Pizza> pizzas = new ArrayList<>();
 
     public void addPizza(Pizza pizza) {
-        pizzaList.add(pizza);
+        pizzas.add(pizza);
     }
 
 }
