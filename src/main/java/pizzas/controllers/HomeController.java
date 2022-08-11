@@ -1,4 +1,4 @@
-package pizzas;
+package pizzas.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
