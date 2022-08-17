@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 import pizzas.data.IngredientRepository;
 import pizzas.models.Ingredient;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {
 
