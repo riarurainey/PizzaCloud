@@ -1,30 +1,48 @@
 package pizzas.models;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.domain.Persistable;
-import org.springframework.data.relational.core.mapping.Table;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.Hibernate;
 
-@Data
-@Table
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import java.util.Objects;
+
+
+@Getter
+@Setter
+@ToString
 @RequiredArgsConstructor
-public class Ingredient implements Persistable<String> {
+@Entity
+@AllArgsConstructor
+
+public class Ingredient {
 
     @Id
-    private final String id;
-    private final String name;
-    private final Type type;
-
-    @Override
-    public boolean isNew() {
-        return true;
-    }
+    private String id;
+    private String name;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     public enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Ingredient that = (Ingredient) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
-
-

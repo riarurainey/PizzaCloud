@@ -19,7 +19,6 @@ public class PizzaCloudApplication {
     @Bean
     public CommandLineRunner dataLoader(IngredientRepository repository) {
         return args -> {
-            repository.deleteAll();
             repository.save(new Ingredient("CLS", "Classic Crust", Type.WRAP));
             repository.save(new Ingredient("THN", "Thin Crust", Type.WRAP));
             repository.save(new Ingredient("CHRZ", "Chorizo", Type.PROTEIN));
