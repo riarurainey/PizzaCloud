@@ -1,13 +1,8 @@
 spring:
-  datasource:
-    generate-unique-name: false
-    name: pizzacloud
-    url: jdbc:h2:file:./src/main/resources/data/pizzaDB;MV_STORE=false;AUTO_SERVER=TRUE
-  jpa:
-    defer-datasource-initialization: true
-
-  sql:
-    init:
-      mode: always
+  data:
+    cassandra:
+      keyspace-name: pizzacloud
+      schema-action: recreate
+      local-datacenter: datacenter1
 
 

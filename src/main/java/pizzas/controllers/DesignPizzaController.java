@@ -15,12 +15,12 @@ import pizzas.models.Ingredient;
 import pizzas.models.Ingredient.Type;
 import pizzas.models.Pizza;
 import pizzas.models.PizzaOrder;
+import pizzas.models.PizzaUDT;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @Controller
@@ -35,20 +35,16 @@ public class DesignPizzaController {
         this.ingredientRepository = ingredientRepository;
     }
 
-    @GetMapping
-    public String showDesignForm() {
-        return "design";
+    @ModelAttribute
+    public void addIngredientsToModel(Model model) {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepository.findAll().forEach(ingredients::add);
+        Type[] types = Ingredient.Type.values();
+        for (Type type : types) {
+            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
+        }
     }
 
-    @PostMapping
-    public String process(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder) {
-        if (errors.hasErrors()) {
-            return "design";
-        }
-        pizzaOrder.addPizza(pizza);
-        log.info("Processing pizza: {}", pizza);
-        return "redirect:/orders/current";
-    }
 
     @ModelAttribute(name = "pizzaOrder")
     public PizzaOrder order() {
@@ -60,18 +56,26 @@ public class DesignPizzaController {
         return new Pizza();
     }
 
-    @ModelAttribute
-    public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredientRepository.findAll().forEach(ingredients::add);
-        Type[] types = Ingredient.Type.values();
-        for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
-        }
+    @GetMapping
+    public String showDesignForm() {
+        return "design";
     }
 
-    private Iterable<Ingredient> filterByType(Iterable<Ingredient> ingredients, Type type) {
-        return StreamSupport.stream(ingredients.spliterator(), false)
+    @PostMapping
+    public String process(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder) {
+        if (errors.hasErrors()) {
+            return "design";
+        }
+        pizzaOrder.addPizza(new PizzaUDT(pizza.getName(), pizza.getIngredients()));
+        log.info("Processing pizza: {}", pizza);
+        return "redirect:/orders/current";
+    }
+
+
+    private Iterable<Ingredient> filterByType(
+            List<Ingredient> ingredients, Type type) {
+        return ingredients
+                .stream()
                 .filter(x -> x.getType().equals(type))
                 .collect(Collectors.toList());
     }

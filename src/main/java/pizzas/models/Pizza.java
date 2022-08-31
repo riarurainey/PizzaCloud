@@ -1,59 +1,42 @@
 package pizzas.models;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.Hibernate;
+import com.datastax.oss.driver.api.core.uuid.Uuids;
+import lombok.Data;
+import org.springframework.data.cassandra.core.cql.Ordering;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
+import pizzas.utils.PizzaUDRUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@Entity
+@Data
+@Table("pizzas")
 public class Pizza {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
+    private UUID id = Uuids.timeBased();
+
     @NotNull
     @Size(min = 5, message = "Name must be at least 5 characters long")
     private String name;
 
+    @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
     private Date createdAt = new Date();
 
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")
-    @ManyToMany
-    @ToString.Exclude
-    private List<Ingredient> ingredients = new ArrayList<>();
+    @Column("ingredients")
+    private List<IngredientUDT> ingredients = new ArrayList<>();
 
     public void addIngredient(Ingredient ingredient) {
-        ingredients.add(ingredient);
+        this.ingredients.add(PizzaUDRUtils.toIngredientUDT(ingredient));
 
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Pizza pizza = (Pizza) o;
-        return id != null && Objects.equals(id, pizza.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
