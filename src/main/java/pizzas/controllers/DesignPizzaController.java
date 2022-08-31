@@ -15,7 +15,6 @@ import pizzas.models.Ingredient;
 import pizzas.models.Ingredient.Type;
 import pizzas.models.Pizza;
 import pizzas.models.PizzaOrder;
-import pizzas.models.PizzaUDT;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -66,7 +65,7 @@ public class DesignPizzaController {
         if (errors.hasErrors()) {
             return "design";
         }
-        pizzaOrder.addPizza(new PizzaUDT(pizza.getName(), pizza.getIngredients()));
+        pizzaOrder.addPizza(pizza);
         log.info("Processing pizza: {}", pizza);
         return "redirect:/orders/current";
     }

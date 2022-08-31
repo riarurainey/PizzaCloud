@@ -1,11 +1,9 @@
 package pizzas.models;
 
-import com.datastax.oss.driver.api.core.uuid.Uuids;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
@@ -14,16 +12,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Data
-@Table("orders")
+@Document
 public class PizzaOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @PrimaryKey
-    private UUID id = Uuids.timeBased();
+    @Id
+    private String id;
     private Date placeAt = new Date();
 
     @NotBlank(message = "Delivery name is required")
@@ -50,10 +47,9 @@ public class PizzaOrder implements Serializable {
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
-    @Column("pizzas")
-    private List<PizzaUDT> pizzas = new ArrayList<>();
+    private List<Pizza> pizzas = new ArrayList<>();
 
-    public void addPizza(PizzaUDT pizza) {
+    public void addPizza(Pizza pizza) {
         pizzas.add(pizza);
     }
 
