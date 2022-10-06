@@ -5,8 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import pizzas.data.IngredientRepository;
-import pizzas.models.Ingredient;
-import pizzas.models.Ingredient.Type;
+import pizzas.model.Ingredient;
+import pizzas.model.Ingredient.Type;
 
 
 @SpringBootApplication
