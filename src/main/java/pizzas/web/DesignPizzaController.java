@@ -13,17 +13,22 @@ import pizzas.Ingredient;
 import pizzas.Ingredient.Type;
 import pizzas.Pizza;
 import pizzas.PizzaOrder;
+import pizzas.data.IngredientRepository;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("pizzaOrder")
 public class DesignPizzaController {
+    private final IngredientRepository ingredientRepository;
+
+    public DesignPizzaController(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @GetMapping
     public String showDesignForm() {
@@ -36,7 +41,6 @@ public class DesignPizzaController {
             return "design";
         }
         pizzaOrder.addPizza(pizza);
-        log.info("Processing pizza: {}", pizza);
         return "redirect:/orders/current";
     }
 
@@ -52,24 +56,7 @@ public class DesignPizzaController {
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-
-        List<Ingredient> ingredients = Arrays.asList(
-                new Ingredient("CLS", "Classic Crust", Type.WRAP),
-                new Ingredient("THN", "Thin Crust", Type.WRAP),
-                new Ingredient("CHRZ", "Chorizo", Type.PROTEIN),
-                new Ingredient("PEP", "Pepperoni", Type.PROTEIN),
-                new Ingredient("TMTO", "Diced Tomatoes", Type.VEGGIES),
-                new Ingredient("ON", "Onion", Type.VEGGIES),
-                new Ingredient("BLG", "Bulgarian pepper", Type.VEGGIES),
-                new Ingredient("OLV", "Olive", Type.VEGGIES),
-                new Ingredient("CHED", "Cheddar", Type.CHEESE),
-                new Ingredient("MOZ", "Mozzarella", Type.CHEESE),
-                new Ingredient("PAR", "Parmesan", Type.CHEESE),
-                new Ingredient("DRB", "Danish blue", Type.CHEESE),
-                new Ingredient("FET", "Feta", Type.CHEESE),
-                new Ingredient("RNC", "Ranch", Type.CHEESE),
-                new Ingredient("TMT", "Tomato Sauce", Type.SAUCE),
-                new Ingredient("MSTR", "Mustard sauce", Type.SAUCE));
+        Iterable<Ingredient> ingredients = ingredientRepository.findAll();
 
         Type[] types = Ingredient.Type.values();
         for (Type type : types) {
@@ -78,11 +65,9 @@ public class DesignPizzaController {
 
     }
 
-    private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
-        return ingredients
-                .stream()
+    private Iterable<Ingredient> filterByType(Iterable<Ingredient> ingredients, Type type) {
+        return StreamSupport.stream(ingredients.spliterator(), false)
                 .filter(x -> x.getType().equals(type))
                 .collect(Collectors.toList());
     }
-
 }

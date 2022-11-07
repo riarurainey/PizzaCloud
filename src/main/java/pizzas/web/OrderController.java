@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import pizzas.PizzaOrder;
+import pizzas.data.OrderRepository;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,12 @@ import javax.validation.Valid;
 @SessionAttributes("pizzaOrder")
 
 public class OrderController {
+    private OrderRepository orderRepository;
+
+    public OrderController(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
     @GetMapping("/current")
     public String orderForm() {
         return "orderForm";
@@ -28,7 +35,8 @@ public class OrderController {
         if (errors.hasErrors()) {
             return "orderForm";
         }
-        log.info("Order submitted: {}", pizzaOrder);
+
+        orderRepository.save(pizzaOrder);
         sessionStatus.setComplete();
         return "redirect:/";
     }

@@ -1,4 +1,4 @@
-package pizzas;
+package pizzas.web;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import pizzas.web.DesignPizzaController;
+import pizzas.Ingredient;
 
 import java.util.Arrays;
 import java.util.List;
