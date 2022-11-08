@@ -1,10 +1,18 @@
 package pizzas;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -13,13 +21,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Data
-@Table
+@Entity
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+@RequiredArgsConstructor
 public class PizzaOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank(message = "Delivery name is required")
@@ -48,6 +61,7 @@ public class PizzaOrder implements Serializable {
 
     private Date placedAt = new Date();
 
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Pizza> pizzas = new ArrayList<>();
 
     public void addPizza(Pizza pizza) {

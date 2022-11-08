@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import pizzas.Ingredient;
-import pizzas.IngredientRef;
 import pizzas.Pizza;
 import pizzas.data.IngredientRepository;
 import pizzas.data.OrderRepository;
@@ -74,8 +74,10 @@ public class DesignPizzaControllerTest {
         test = new Pizza();
         test.setName("Test Pizza");
         test.setIngredients(
-                Arrays.asList(new IngredientRef("CLS"), new IngredientRef("PEP"), new IngredientRef("CHED"))
-        );
+                Arrays.asList(
+                        new Ingredient("CLS", "Classic Crust", Ingredient.Type.WRAP),
+                        new Ingredient("PEP", "Pepperoni", Ingredient.Type.PROTEIN),
+                        new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE)));
 
     }
 
