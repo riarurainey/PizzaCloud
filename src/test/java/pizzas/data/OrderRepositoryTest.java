@@ -2,8 +2,7 @@ package pizzas.data;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import pizzas.Ingredient;
 import pizzas.Pizza;
 import pizzas.PizzaOrder;
@@ -12,13 +11,12 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@DataJdbcTest
 public class OrderRepositoryTest {
     @Autowired
     OrderRepository orderRepository;
 
     @Test
-    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     public void saveOrderWithTwoPizzas() {
         PizzaOrder order = new PizzaOrder();
         order.setDeliveryName("Name");
@@ -43,10 +41,11 @@ public class OrderRepositoryTest {
         pizza2.addIngredient(new Ingredient("PEP", "Pepperoni", Ingredient.Type.PROTEIN));
         pizza2.addIngredient(new Ingredient("OLV", "Olive", Ingredient.Type.VEGGIES));
         pizza2.addIngredient(new Ingredient("TMT", "Tomato Sauce", Ingredient.Type.SAUCE));
-
         order.addPizza(pizza2);
 
         PizzaOrder saveOrder = orderRepository.save(order);
+        assertThat(saveOrder.getId()).isNotNull();
+
         PizzaOrder fetchedOrder = orderRepository.findById(saveOrder.getId()).get();
         assertThat(fetchedOrder.getDeliveryName()).isEqualTo("Name");
         assertThat(fetchedOrder.getDeliveryStreet()).isEqualTo("DeliveryStreet");
@@ -56,11 +55,10 @@ public class OrderRepositoryTest {
         assertThat(fetchedOrder.getCcNumber()).isEqualTo("4111111111111111");
         assertThat(fetchedOrder.getCcExpiration()).isEqualTo("10/24");
         assertThat(fetchedOrder.getCcCVV()).isEqualTo("111");
-        assertThat(fetchedOrder.getPlacedAt()).isEqualTo(saveOrder.getPlacedAt());
+        assertThat(fetchedOrder.getPlacedAt().getTime()).isEqualTo(saveOrder.getPlacedAt().getTime());
 
         List<Pizza> pizzas = fetchedOrder.getPizzas();
         assertThat(pizzas.size()).isEqualTo(2);
-        assertThat(pizzas).containsExactlyInAnyOrder(pizza1, pizza2);
 
     }
 

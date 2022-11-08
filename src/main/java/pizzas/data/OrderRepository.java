@@ -1,11 +1,8 @@
 package pizzas.data;
 
+import org.springframework.data.repository.CrudRepository;
 import pizzas.PizzaOrder;
 
-import java.util.Optional;
+public interface OrderRepository extends CrudRepository<PizzaOrder, Long> {
 
-public interface OrderRepository {
-    PizzaOrder save(PizzaOrder pizzaOrder);
-
-    Optional<PizzaOrder> findById(Long id);
 }
