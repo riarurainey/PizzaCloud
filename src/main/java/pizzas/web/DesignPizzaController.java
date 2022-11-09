@@ -1,6 +1,8 @@
 package pizzas.web;
 
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -13,37 +15,35 @@ import pizzas.Ingredient;
 import pizzas.Ingredient.Type;
 import pizzas.Pizza;
 import pizzas.PizzaOrder;
+import pizzas.PizzaUDT;
 import pizzas.data.IngredientRepository;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("pizzaOrder")
 public class DesignPizzaController {
+
     private final IngredientRepository ingredientRepository;
 
+    @Autowired
     public DesignPizzaController(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
     }
 
-    @GetMapping
-    public String showDesignForm() {
-        return "design";
-    }
-
-    @PostMapping
-    public String processPizza(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder) {
-        if (errors.hasErrors()) {
-            return "design";
+    @ModelAttribute
+    public void addIngredientsToModel(Model model) {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredientRepository.findAll().forEach(ingredients::add);
+        Type[] types = Ingredient.Type.values();
+        for (Type type : types) {
+            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
         }
-        pizzaOrder.addPizza(pizza);
-        return "redirect:/orders/current";
     }
 
     @ModelAttribute(name = "pizzaOrder")
@@ -56,19 +56,26 @@ public class DesignPizzaController {
         return new Pizza();
     }
 
-    @ModelAttribute
-    public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredientRepository.findAll().forEach(ingredients::add);
-        Type[] types = Ingredient.Type.values();
-        for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
-        }
-
+    @GetMapping
+    public String showDesignForm() {
+        return "design";
     }
 
-    private Iterable<Ingredient> filterByType(Iterable<Ingredient> ingredients, Type type) {
-        return StreamSupport.stream(ingredients.spliterator(), false)
+    @PostMapping
+    public String process(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder) {
+        if (errors.hasErrors()) {
+            return "design";
+        }
+        pizzaOrder.addPizza(new PizzaUDT(pizza.getName(), pizza.getIngredients()));
+
+        return "redirect:/orders/current";
+    }
+
+
+    private Iterable<Ingredient> filterByType(
+            List<Ingredient> ingredients, Type type) {
+        return ingredients
+                .stream()
                 .filter(x -> x.getType().equals(type))
                 .collect(Collectors.toList());
     }

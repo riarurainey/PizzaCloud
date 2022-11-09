@@ -6,6 +6,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import pizzas.Ingredient;
 import pizzas.Pizza;
 import pizzas.PizzaOrder;
+import pizzas.PizzaUDT;
+import pizzas.utils.PizzaUDRUtils;
 
 import java.util.List;
 
@@ -34,14 +36,15 @@ public class OrderRepositoryTest {
         pizza1.addIngredient(new Ingredient("CHRZ", "Chorizo", Ingredient.Type.PROTEIN));
         pizza1.addIngredient(new Ingredient("MSTR", "Mustard sauce", Ingredient.Type.SAUCE));
 
-        order.addPizza(pizza1);
+        order.addPizza(PizzaUDRUtils.toPizzaUDT(pizza1));
 
         Pizza pizza2 = new Pizza();
         pizza2.setName("Second Pizza");
         pizza2.addIngredient(new Ingredient("PEP", "Pepperoni", Ingredient.Type.PROTEIN));
         pizza2.addIngredient(new Ingredient("OLV", "Olive", Ingredient.Type.VEGGIES));
         pizza2.addIngredient(new Ingredient("TMT", "Tomato Sauce", Ingredient.Type.SAUCE));
-        order.addPizza(pizza2);
+
+        order.addPizza(PizzaUDRUtils.toPizzaUDT(pizza2));
 
         PizzaOrder saveOrder = orderRepository.save(order);
         assertThat(saveOrder.getId()).isNotNull();
@@ -57,8 +60,9 @@ public class OrderRepositoryTest {
         assertThat(fetchedOrder.getCcCVV()).isEqualTo("111");
         assertThat(fetchedOrder.getPlacedAt().getTime()).isEqualTo(saveOrder.getPlacedAt().getTime());
 
-        List<Pizza> pizzas = fetchedOrder.getPizzas();
+        List<PizzaUDT> pizzas = fetchedOrder.getPizzas();
         assertThat(pizzas.size()).isEqualTo(2);
+        assertThat(pizzas).containsExactlyInAnyOrder(PizzaUDRUtils.toPizzaUDT(pizza1), PizzaUDRUtils.toPizzaUDT(pizza2));
 
     }
 

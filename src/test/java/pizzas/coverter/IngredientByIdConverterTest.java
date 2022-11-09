@@ -3,8 +3,8 @@ package pizzas.coverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pizzas.Ingredient;
-import pizzas.converter.IngredientByIdConverter;
 import pizzas.data.IngredientRepository;
+import pizzas.utils.IngredientByIdConverter;
 
 import java.util.Optional;
 
