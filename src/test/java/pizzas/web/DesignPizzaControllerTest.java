@@ -5,15 +5,22 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pizzas.Ingredient;
+import pizzas.IngredientRef;
+import pizzas.Pizza;
+import pizzas.data.IngredientRepository;
+import pizzas.data.OrderRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +33,14 @@ public class DesignPizzaControllerTest {
     private MockMvc mockMvc;
 
     private List<Ingredient> ingredients;
+
+    private Pizza test;
+
+    @MockBean
+    private IngredientRepository ingredientRepository;
+
+    @MockBean
+    private OrderRepository orderRepository;
 
     @BeforeEach
     public void setup() {
@@ -46,6 +61,21 @@ public class DesignPizzaControllerTest {
                 new Ingredient("RNC", "Ranch", Ingredient.Type.CHEESE),
                 new Ingredient("TMT", "Tomato Sauce", Ingredient.Type.SAUCE),
                 new Ingredient("MSTR", "Mustard sauce", Ingredient.Type.SAUCE));
+
+        when(ingredientRepository.findAll())
+                .thenReturn(ingredients);
+
+        when(ingredientRepository.findById("CLS"))
+                .thenReturn(Optional.of(new Ingredient("CLS", "Classic Crust", Ingredient.Type.WRAP)));
+        when(ingredientRepository.findById("PEP"))
+                .thenReturn(Optional.of(new Ingredient("PEP", "Pepperoni", Ingredient.Type.PROTEIN)));
+        when(ingredientRepository.findById("CHED"))
+                .thenReturn(Optional.of(new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE)));
+        test = new Pizza();
+        test.setName("Test Pizza");
+        test.setIngredients(
+                Arrays.asList(new IngredientRef("CLS"), new IngredientRef("PEP"), new IngredientRef("CHED"))
+        );
 
     }
 
@@ -73,5 +103,3 @@ public class DesignPizzaControllerTest {
 
     }
 }
-
-

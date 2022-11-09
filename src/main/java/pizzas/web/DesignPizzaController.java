@@ -30,20 +30,6 @@ public class DesignPizzaController {
         this.ingredientRepository = ingredientRepository;
     }
 
-    @GetMapping
-    public String showDesignForm() {
-        return "design";
-    }
-
-    @PostMapping
-    public String processPizza(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder) {
-        if (errors.hasErrors()) {
-            return "design";
-        }
-        pizzaOrder.addPizza(pizza);
-        return "redirect:/orders/current";
-    }
-
     @ModelAttribute(name = "pizzaOrder")
     public PizzaOrder order() {
         return new PizzaOrder();
@@ -64,6 +50,21 @@ public class DesignPizzaController {
         }
 
     }
+
+    @GetMapping
+    public String showDesignForm() {
+        return "design";
+    }
+
+    @PostMapping
+    public String processPizza(@Valid Pizza pizza, Errors errors, @ModelAttribute PizzaOrder pizzaOrder) {
+        if (errors.hasErrors()) {
+            return "design";
+        }
+        pizzaOrder.addPizza(pizza);
+        return "redirect:/orders/current";
+    }
+
 
     private Iterable<Ingredient> filterByType(Iterable<Ingredient> ingredients, Type type) {
         return StreamSupport.stream(ingredients.spliterator(), false)
