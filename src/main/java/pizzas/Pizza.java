@@ -10,6 +10,10 @@ import java.util.List;
 
 @Data
 public class Pizza {
+    private Long id;
+
+    private Date createdAt = new Date();
+
     @NotNull
     @Size(min = 5, message = "Name must be at least 5 characters long")
     private String name;
@@ -17,10 +21,6 @@ public class Pizza {
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")
     private List<IngredientRef> ingredients = new ArrayList<>();
-
-    private Long id;
-
-    private Date createdAt = new Date();
 
 
     public void addIngredient(Ingredient ingredient) {
