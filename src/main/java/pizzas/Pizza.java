@@ -1,10 +1,10 @@
 package pizzas;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.Hibernate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,12 +16,12 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @RequiredArgsConstructor
 public class Pizza {
     @Id
@@ -34,12 +34,27 @@ public class Pizza {
 
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")
+
     @ManyToMany()
+    @ToString.Exclude
     private List<Ingredient> ingredients = new ArrayList<>();
 
     private Date createdAt = new Date();
 
     public void addIngredient(Ingredient ingredient) {
         ingredients.add(ingredient);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Pizza pizza = (Pizza) o;
+        return id != null && Objects.equals(id, pizza.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

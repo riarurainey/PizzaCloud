@@ -12,8 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class IngredientRepositoryTest {
+
     @Autowired
     IngredientRepository ingredientRepository;
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 

@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 public class OrderRepositoryTest {
+
     @Autowired
     OrderRepository orderRepository;
 

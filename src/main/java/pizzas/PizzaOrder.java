@@ -1,10 +1,10 @@
 package pizzas;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import javax.persistence.CascadeType;
@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
@@ -20,11 +21,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor
 public class PizzaOrder implements Serializable {
@@ -61,10 +62,27 @@ public class PizzaOrder implements Serializable {
 
     private Date placedAt = new Date();
 
+    @ManyToOne
+    private User user;
+
     @OneToMany(cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Pizza> pizzas = new ArrayList<>();
 
     public void addPizza(Pizza pizza) {
         pizzas.add(pizza);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        PizzaOrder that = (PizzaOrder) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
