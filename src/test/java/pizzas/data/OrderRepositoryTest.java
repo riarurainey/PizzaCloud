@@ -2,7 +2,7 @@ package pizzas.data;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import pizzas.Ingredient;
 import pizzas.Pizza;
 import pizzas.PizzaOrder;
@@ -11,8 +11,12 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataMongoTest
 public class OrderRepositoryTest {
+    static {
+        System.setProperty("spring.mongodb.embedded.version", "5.0.0");
+    }
+
     @Autowired
     OrderRepository orderRepository;
 
