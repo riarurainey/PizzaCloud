@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -13,6 +14,7 @@ import pizzas.data.IngredientRepository;
 import pizzas.data.OrderRepository;
 import pizzas.data.PizzaRepository;
 import pizzas.data.UserRepository;
+import pizzas.data.service.OrderAdminService;
 import pizzas.security.SecurityConfig;
 
 import static org.hamcrest.Matchers.containsString;
@@ -21,13 +23,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+
+@Import(SecurityConfig.class)
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
-@Import(SecurityConfig.class)
 public class HomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+
+    @MockBean
+    private OrderAdminService adminService;
 
     @MockBean
     private IngredientRepository ingredientRepository;
@@ -36,13 +43,16 @@ public class HomeControllerTest {
     private PizzaRepository pizzaRepository;
 
     @MockBean
+    private OrderRepository orderRepository;
+
+    @MockBean
     private UserRepository userRepository;
 
     @MockBean
     private PasswordEncoder passwordEncoder;
 
     @MockBean
-    private OrderRepository orderRepository;
+    private UserDetailsService userDetailsService;
 
     @Test
     public void testHomePage() throws Exception {

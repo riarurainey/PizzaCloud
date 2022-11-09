@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pizzas.data.UserRepository;
 
-
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
@@ -23,7 +22,7 @@ public class RegistrationController {
 
     @GetMapping
     public String registerForm() {
-        return "registration";
+        return "registration.html";
     }
 
     @PostMapping

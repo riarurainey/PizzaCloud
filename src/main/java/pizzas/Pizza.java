@@ -24,6 +24,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 public class Pizza {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

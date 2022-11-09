@@ -4,7 +4,6 @@ import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pizzas.User;
 
-
 @Data
 public class RegistrationForm {
 
