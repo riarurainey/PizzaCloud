@@ -1,8 +1,12 @@
-package pizzas.web;
+package pizzas.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,11 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import pizzas.PizzaOrder;
-import pizzas.User;
-import pizzas.data.OrderRepository;
+import pizzas.dao.model.PizzaOrder;
+import pizzas.dao.model.User;
+import pizzas.dao.repository.OrderRepository;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Slf4j
 @Controller
@@ -24,8 +30,15 @@ import javax.validation.Valid;
 public class OrderController {
     private final OrderRepository orderRepository;
 
+    @Min(value = 5, message = "must be between 5 and 25")
+    @Max(value = 25, message = "must be between 5 and 25")
+    @Value("${spring.pizza.orders.pageSize: 20}")
+    private int pageSize;
+
+
     public OrderController(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
+
     }
 
     @GetMapping("/current")
@@ -58,6 +71,14 @@ public class OrderController {
         pizzaOrder.setUser(user);
         orderRepository.save(pizzaOrder);
         sessionStatus.setComplete();
-        return "redirect:/";
+        return "redirect:/orders";
+    }
+
+    @GetMapping
+    public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
+        Pageable pageable = PageRequest.of(0, pageSize);
+        model.addAttribute("orders", orderRepository.findByUserOrderByPlacedAtDesc(user, pageable));
+        return "orderList";
+
     }
 }

@@ -1,4 +1,4 @@
-package pizzas;
+package pizzas.dao.model;
 
 import lombok.AccessLevel;
 import lombok.Getter;

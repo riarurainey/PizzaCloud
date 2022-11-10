@@ -2,7 +2,7 @@ package pizzas.security;
 
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pizzas.User;
+import pizzas.dao.model.User;
 
 @Data
 public class RegistrationForm {

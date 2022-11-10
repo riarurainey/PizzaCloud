@@ -1,9 +1,9 @@
-package pizzas.converter;
+package pizzas.util;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import pizzas.Ingredient;
-import pizzas.data.IngredientRepository;
+import pizzas.dao.model.Ingredient;
+import pizzas.dao.repository.IngredientRepository;
 
 @Component
 public class IngredientByIdConverter implements Converter<String, Ingredient> {

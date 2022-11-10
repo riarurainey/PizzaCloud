@@ -3,9 +3,10 @@ package pizzas.data;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import pizzas.Ingredient;
-import pizzas.Pizza;
-import pizzas.PizzaOrder;
+import pizzas.dao.model.Ingredient;
+import pizzas.dao.model.Pizza;
+import pizzas.dao.model.PizzaOrder;
+import pizzas.dao.repository.OrderRepository;
 
 import java.util.List;
 

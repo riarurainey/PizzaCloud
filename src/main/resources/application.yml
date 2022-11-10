@@ -1,4 +1,21 @@
 spring:
+  security:
+    user:
+      name: user
+      password: password
   datasource:
     generate-unique-name: false
     name: pizza-cloud
+
+  pizza:
+    orders:
+      pageSize: 10
+
+    discount:
+      codes: '{ sale : 10 }'
+
+
+
+
+
+

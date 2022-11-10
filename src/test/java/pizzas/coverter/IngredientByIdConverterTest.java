@@ -2,9 +2,9 @@ package pizzas.coverter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pizzas.Ingredient;
-import pizzas.converter.IngredientByIdConverter;
-import pizzas.data.IngredientRepository;
+import pizzas.dao.model.Ingredient;
+import pizzas.dao.repository.IngredientRepository;
+import pizzas.util.IngredientByIdConverter;
 
 import java.util.Optional;
 

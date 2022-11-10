@@ -1,4 +1,4 @@
-package pizzas;
+package pizzas.dao.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,13 +7,13 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -60,17 +60,22 @@ public class PizzaOrder implements Serializable {
     @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
-    private Date placedAt = new Date();
+    private Date placedAt;
 
-    @ManyToOne
+    @ManyToOne()
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Pizza.class)
     @ToString.Exclude
     private List<Pizza> pizzas = new ArrayList<>();
 
     public void addPizza(Pizza pizza) {
         pizzas.add(pizza);
+    }
+
+    @PrePersist
+    void placedAt() {
+        placedAt = new Date();
     }
 
     @Override

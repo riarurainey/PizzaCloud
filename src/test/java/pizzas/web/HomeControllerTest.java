@@ -10,12 +10,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import pizzas.data.IngredientRepository;
-import pizzas.data.OrderRepository;
-import pizzas.data.PizzaRepository;
-import pizzas.data.UserRepository;
-import pizzas.data.service.OrderAdminService;
-import pizzas.security.SecurityConfig;
+import pizzas.config.SecurityConfig;
+import pizzas.dao.repository.IngredientRepository;
+import pizzas.dao.repository.OrderRepository;
+import pizzas.dao.repository.PizzaRepository;
+import pizzas.dao.repository.UserRepository;
+import pizzas.service.OrderAdminService;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

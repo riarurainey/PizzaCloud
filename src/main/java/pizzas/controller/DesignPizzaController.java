@@ -1,4 +1,4 @@
-package pizzas.web;
+package pizzas.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import pizzas.Ingredient;
-import pizzas.Ingredient.Type;
-import pizzas.Pizza;
-import pizzas.PizzaOrder;
-import pizzas.User;
-import pizzas.data.IngredientRepository;
-import pizzas.data.PizzaRepository;
-import pizzas.data.UserRepository;
+import pizzas.dao.model.Ingredient;
+import pizzas.dao.model.Ingredient.Type;
+import pizzas.dao.model.Pizza;
+import pizzas.dao.model.PizzaOrder;
+import pizzas.dao.model.User;
+import pizzas.dao.repository.IngredientRepository;
+import pizzas.dao.repository.PizzaRepository;
+import pizzas.dao.repository.UserRepository;
 
 import javax.validation.Valid;
 import java.security.Principal;

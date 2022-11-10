@@ -1,0 +1,18 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+    #  datasource:
+    #    url: jdbc:mysql://localhost/pizza_cloud
+    #    username: pizza_user
+    #    password: pizza_password
+
+    datasource:
+      generate-unique-name: false
+      name: pizza-cloud
+
+
+    logging:
+      level:
+        pizzas: WARN

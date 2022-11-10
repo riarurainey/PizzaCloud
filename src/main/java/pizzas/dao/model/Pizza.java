@@ -1,4 +1,4 @@
-package pizzas;
+package pizzas.dao.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -36,11 +37,11 @@ public class Pizza {
     @NotNull
     @Size(min = 1, message = "You must choose at least 1 ingredient")
 
-    @ManyToMany()
+    @ManyToMany(targetEntity = Ingredient.class)
     @ToString.Exclude
     private List<Ingredient> ingredients = new ArrayList<>();
 
-    private Date createdAt = new Date();
+    private Date createdAt;
 
     public void addIngredient(Ingredient ingredient) {
         ingredients.add(ingredient);
@@ -57,5 +58,10 @@ public class Pizza {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @PrePersist
+    void createdAt() {
+        createdAt = new Date();
     }
 }

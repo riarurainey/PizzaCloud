@@ -1,7 +1,7 @@
-package pizzas.data;
+package pizzas.dao.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import pizzas.Ingredient;
+import pizzas.dao.model.Ingredient;
 
 public interface IngredientRepository extends CrudRepository<Ingredient, String> {
 

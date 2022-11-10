@@ -1,8 +1,8 @@
-package pizzas.data.service;
+package pizzas.service;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import pizzas.data.OrderRepository;
+import pizzas.dao.repository.OrderRepository;
 
 @Service
 public class OrderAdminService {

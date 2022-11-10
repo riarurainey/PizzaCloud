@@ -1,7 +1,7 @@
-package pizzas.data;
+package pizzas.dao.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import pizzas.User;
+import pizzas.dao.model.User;
 
 
 public interface UserRepository extends CrudRepository<User, Long> {
