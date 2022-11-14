@@ -1,0 +1,8 @@
+spring:
+  pizza:
+    orders:
+     pageSize: 10
+
+  discount:
+    codes: '{ sale : 10 }'
+

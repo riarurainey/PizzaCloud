@@ -1,0 +1,19 @@
+spring:
+  security:
+    user:
+      name: user
+      password: password
+  datasource:
+    generate-unique-name: false
+    name: pizza-cloud
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+
+
+
+
+
+
+
