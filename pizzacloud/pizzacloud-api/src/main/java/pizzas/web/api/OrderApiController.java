@@ -86,7 +86,7 @@ public class OrderApiController {
         try {
             orderRepository.deleteById(orderId);
         } catch (EmptyResultDataAccessException ignored) {
-            //сделать чтобы не игноред
+
         }
 
 

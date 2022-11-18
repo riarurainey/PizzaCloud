@@ -1,0 +1,21 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          pizza-admin-client:
+            provider: pizzacloud
+            client-id: pizza-admin-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri:
+              "http://127.0.0.1:9090/login/oauth2/code/{registrationId}"
+            scope: writeIngredients, deleteIngredients, openid
+
+      provider:
+        pizzacloud:
+          issuer-uri: http:://localhost:9000
+          authorization-uri: http://localhost:9000/oauth2/authorize
+          token-uri: http://localhost:9000/oauth2/token
+          user-info-uri: http://localhost:9000oauth2/userinfo
+          jwk-set-uri: http://localhost:9000/oauth2/keys
