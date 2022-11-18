@@ -1,9 +1,7 @@
 package pizzas.web.api;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import pizzas.Ingredient;
 import pizzas.IngredientRepository;
 
@@ -22,6 +20,20 @@ public class IngredientController {
     @GetMapping
     public Iterable<Ingredient> allIngredient() {
         return ingredientRepository.findAll();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Ingredient saveIngredient(@RequestBody Ingredient ingredient) {
+        return ingredientRepository.save(ingredient);
+
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteIngredient(@PathVariable("id") String ingredientId) {
+        ingredientRepository.deleteById(ingredientId);
+
     }
 
 }

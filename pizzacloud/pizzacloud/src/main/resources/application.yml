@@ -3,13 +3,16 @@ spring:
     user:
       name: user
       password: password
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
   datasource:
     generate-unique-name: false
     name: pizza-cloud
   jpa:
     hibernate:
       ddl-auto: update
-
 
 
 
