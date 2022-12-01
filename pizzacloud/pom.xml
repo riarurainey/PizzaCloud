@@ -5,7 +5,7 @@
 
     <groupId>sia</groupId>
     <artifactId>pizza-cloud-parent</artifactId>
-    <version>0.0.7-SNAPSHOT</version>
+    <version>0.0.9-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -22,13 +22,18 @@
     </properties>
 
     <modules>
-        <module>pizzacloud</module>
-        <module>pizzacloud-api</module>
-        <module>pizzacloud-domain</module>
-        <module>pizzacloud-data</module>
-        <module>pizzacloud-restclient</module>
-        <module>pizzacloud-security</module>
-        <module>pizzacloud-web</module>
+        <module>app</module>
+        <module>api</module>
+        <module>domain</module>
+        <module>data</module>
+        <module>restclient</module>
+        <module>security</module>
+        <module>web</module>
+        <module>kitchen</module>
+        <module>messaging-jms</module>
+        <module>messaging-rabbitmq</module>
+        <module>messaging-common</module>
+        <module>messaging-kafka</module>
 
     </modules>
 

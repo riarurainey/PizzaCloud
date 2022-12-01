@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>messaging-jms</artifactId>
+    <packaging>jar</packaging>
+
+    <name>messaging-jms</name>
+    <description>Pizza Cloud Messaging (JMS)</description>
+
+    <parent>
+        <groupId>sia</groupId>
+        <artifactId>pizza-cloud-parent</artifactId>
+        <version>0.0.9-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>sia</groupId>
+            <artifactId>domain</artifactId>
+            <version>${pizzacloud.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>sia</groupId>
+            <artifactId>messaging-common</artifactId>
+            <version>${pizzacloud.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-artemis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>
