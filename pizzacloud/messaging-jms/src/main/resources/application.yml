@@ -1,0 +1,11 @@
+spring:
+  jms:
+    template:
+      default-destination: pizzacloud.order.queue
+  artemis:
+    user: pizzaweb
+    password: whoami
+    embedded:
+      enabled: false
+    broker-url: localhost:61616
+
