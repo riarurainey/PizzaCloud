@@ -1,0 +1,53 @@
+server:
+  port: 8081
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: pizzaweb
+    password: whoami
+    template:
+      receive-timeout: 3000
+      exchange: pizzacloud.orders
+      routing-key: kitchens.central
+    virtual-host: /
+    config:
+      activate:
+        on-profile: rabbitmq-template, rabbitmq-listener
+
+  security:
+    user:
+      name: user
+
+---
+spring:
+  jms:
+    template:
+      receive-timeout: 2
+  artemis:
+    mode: native
+    broker-url: "tcp://192.168.1.210:9876"
+    user: pizzaweb
+    password: whoami
+  config:
+    activate:
+      on-profile: jms-template, jms-listener
+
+
+---
+spring:
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    template:
+      default-topic: pizzacloud.orders.topic
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: pizzacloud_kitchen
+      properties:
+        spring.json.trusted.packages: pizzas
+
+  config:
+    activate:
+      on-profile: kafka-listener
