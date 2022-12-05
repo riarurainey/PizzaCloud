@@ -23,7 +23,8 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @RestResource(rel = "orders", path = "orders")
-public class PizzaOrder implements Serializable {
+@Table(name="pizza_order")
+public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -78,7 +79,7 @@ public class PizzaOrder implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PizzaOrder that = (PizzaOrder) o;
+        Order that = (Order) o;
         return Objects.equals(id, that.id)
                 && Objects.equals(deliveryName, that.deliveryName)
                 && Objects.equals(deliveryStreet, that.deliveryStreet)

@@ -3,6 +3,6 @@ spring:
     orders:
       pageSize: 10
 
-  discount:
-    codes: '{ sale : 10 }'
+    discount:
+      codes: '{ sale : 10 }'
 

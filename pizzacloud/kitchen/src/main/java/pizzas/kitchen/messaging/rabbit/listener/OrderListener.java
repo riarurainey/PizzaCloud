@@ -3,7 +3,7 @@ package pizzas.kitchen.messaging.rabbit.listener;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import pizzas.PizzaOrder;
+import pizzas.Order;
 import pizzas.kitchen.KitchenUi;
 
 @Profile("rabbitmq-listener")
@@ -16,8 +16,8 @@ public class OrderListener {
     }
 
     @RabbitListener(queues = "pizzacloud.order.queue")
-    public void receiveOrder(PizzaOrder pizzaOrder) {
-        ui.displayOrder(pizzaOrder);
+    public void receiveOrder(Order order) {
+        ui.displayOrder(order);
     }
 
 }

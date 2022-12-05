@@ -1,7 +1,7 @@
 package pizzas.kitchen;
 
-import pizzas.PizzaOrder;
+import pizzas.Order;
 
 public interface OrderReceiver {
-    PizzaOrder receiveOrder();
+    Order receiveOrder();
 }

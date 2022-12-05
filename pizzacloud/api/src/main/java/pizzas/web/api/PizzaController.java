@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/pizzas", produces = "application/json")
-@CrossOrigin(origins = "http://pizza-cloud:8080")
+@CrossOrigin(origins="http://localhost:8080")
 public class PizzaController {
 
     private final PizzaRepository pizzaRepository;
