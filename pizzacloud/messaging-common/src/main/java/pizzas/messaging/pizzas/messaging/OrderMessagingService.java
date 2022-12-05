@@ -1,9 +1,9 @@
 package pizzas.messaging.pizzas.messaging;
 
 
-import pizzas.PizzaOrder;
+import pizzas.Order;
 
 public interface OrderMessagingService {
-    void sendOrder(PizzaOrder pizzaOrder);
+    void sendOrder(Order order);
 }
 

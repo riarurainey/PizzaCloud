@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/pizzas", "/api/orders/**")
                 .permitAll()
                 .antMatchers(HttpMethod.PATCH, "/api/ingredients").permitAll()
-                .antMatchers("/orders").permitAll()
+                .antMatchers("/orders/**").permitAll()
                 .antMatchers("/**").access("permitAll")
                 .and()
                 .formLogin()

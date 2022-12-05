@@ -3,8 +3,8 @@ package pizzas.kitchen.messaging.jms;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
+import pizzas.Order;
 import pizzas.kitchen.OrderReceiver;
-import pizzas.PizzaOrder;
 
 @Profile("jms-template")
 @Component
@@ -17,7 +17,7 @@ public class JmsOrderReceiver implements OrderReceiver {
     }
 
     @Override
-    public PizzaOrder receiveOrder() {
-        return (PizzaOrder) jms.receiveAndConvert("pizzacloud.order.queue");
+    public Order receiveOrder() {
+        return (Order) jms.receiveAndConvert("pizzacloud.order.queue");
     }
 }

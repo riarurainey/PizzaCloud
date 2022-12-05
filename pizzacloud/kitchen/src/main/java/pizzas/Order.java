@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class PizzaOrder {
+public class Order {
 
     private Date placedAt;
     private String deliveryName;

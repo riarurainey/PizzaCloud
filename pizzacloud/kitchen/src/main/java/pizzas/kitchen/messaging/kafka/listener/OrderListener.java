@@ -5,7 +5,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import pizzas.PizzaOrder;
+import pizzas.Order;
 import pizzas.kitchen.KitchenUi;
 
 @Profile("kafka-listener")
@@ -20,7 +20,7 @@ public class OrderListener {
     }
 
     @KafkaListener(topics = "pizzacloud.orders.topic")
-    public void handle(PizzaOrder order, ConsumerRecord<String, PizzaOrder> record) {
+    public void handle(Order order, ConsumerRecord<String, Order> record) {
         log.info("Received from partition {} with timestamp {}", record.partition(), record.timestamp());
         ui.displayOrder(order);
     }

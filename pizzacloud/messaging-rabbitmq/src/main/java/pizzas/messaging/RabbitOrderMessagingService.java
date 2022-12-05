@@ -6,7 +6,7 @@ import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import pizzas.PizzaOrder;
+import pizzas.Order;
 import pizzas.messaging.pizzas.messaging.OrderMessagingService;
 
 
@@ -19,8 +19,8 @@ public class RabbitOrderMessagingService implements OrderMessagingService {
     }
 
     @Override
-    public void sendOrder(PizzaOrder pizzaOrder) {
-        rabbitTemplate.convertAndSend("pizzacloud.order.queue", pizzaOrder, new MessagePostProcessor() {
+    public void sendOrder(Order order) {
+        rabbitTemplate.convertAndSend("pizzacloud.order.queue", order, new MessagePostProcessor() {
             @Override
             public Message postProcessMessage(Message message) throws AmqpException {
                 MessageProperties properties = message.getMessageProperties();

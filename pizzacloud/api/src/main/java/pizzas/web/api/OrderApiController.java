@@ -3,48 +3,57 @@ package pizzas.web.api;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pizzas.Order;
 import pizzas.OrderRepository;
-import pizzas.PizzaOrder;
 import pizzas.messaging.pizzas.messaging.OrderMessagingService;
 
 
 @RestController
 @RequestMapping(path = "/api/orders", produces = "application/json")
-@CrossOrigin(origins = "http://pizza-cloud:8080")
+@CrossOrigin(origins = "http://localhost:8080")
 public class OrderApiController {
     private final OrderRepository orderRepository;
     private final OrderMessagingService messageService;
+    private final EmailOrderService emailOrderService;
 
-    public OrderApiController(OrderRepository orderRepository, OrderMessagingService messageService) {
+    public OrderApiController(OrderRepository orderRepository, OrderMessagingService messageService, EmailOrderService emailOrderService) {
         this.orderRepository = orderRepository;
         this.messageService = messageService;
+        this.emailOrderService = emailOrderService;
     }
 
     @GetMapping(produces = "application/json")
-    public Iterable<PizzaOrder> getAllOrders() {
+    public Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
+    public Order postOrder(@RequestBody Order order) {
+        messageService.sendOrder(order);
+        return orderRepository.save(order);
+    }
 
-    public PizzaOrder postOrder(@RequestBody PizzaOrder pizzaOrder) {
-        messageService.sendOrder(pizzaOrder);
-        return orderRepository.save(pizzaOrder);
+    @PostMapping(path = "fromEmail", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Order postOrderFromEmail(@RequestBody EmailOrder emailOrder) {
+        Order order = emailOrderService.convertEmailOrderToDomainOrder(emailOrder);
+        messageService.sendOrder(order);
+        return orderRepository.save(order);
     }
 
     @PutMapping(path = "/{orderId}", consumes = "application/json")
-    public PizzaOrder putOrder(@PathVariable("orderId") Long orderId,
-                               @RequestBody PizzaOrder pizzaOrder) {
-        pizzaOrder.setId(orderId);
-        return orderRepository.save(pizzaOrder);
+    public Order putOrder(@PathVariable("orderId") Long orderId,
+                          @RequestBody Order order) {
+        order.setId(orderId);
+        return orderRepository.save(order);
     }
 
     @PatchMapping(path = "/{orderId}", consumes = "application/json")
-    public PizzaOrder patchOrder(@PathVariable("orderId") Long orderId,
-                                 @RequestBody PizzaOrder patchOrder) {
+    public Order patchOrder(@PathVariable("orderId") Long orderId,
+                            @RequestBody Order patchOrder) {
 
-        PizzaOrder order = orderRepository.findById(orderId).get();
+        Order order = orderRepository.findById(orderId).get();
 
         if (patchOrder.getDeliveryName() != null) {
             order.setDeliveryName(patchOrder.getDeliveryName());
