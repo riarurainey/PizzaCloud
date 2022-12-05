@@ -20,5 +20,4 @@ public class OrderListener {
         ui.displayOrder(order);
     }
 
-
 }
