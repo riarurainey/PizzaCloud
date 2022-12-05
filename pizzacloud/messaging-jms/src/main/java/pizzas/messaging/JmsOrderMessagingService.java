@@ -2,7 +2,7 @@ package pizzas.messaging;
 
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
-import pizzas.PizzaOrder;
+import pizzas.Order;
 import pizzas.messaging.pizzas.messaging.OrderMessagingService;
 
 import javax.jms.JMSException;
@@ -20,8 +20,8 @@ public class JmsOrderMessagingService implements OrderMessagingService {
 
 
     @Override
-    public void sendOrder(PizzaOrder pizzaOrder) {
-        jms.convertAndSend("pizzacloud.order.queue", pizzaOrder);
+    public void sendOrder(Order order) {
+        jms.convertAndSend("pizzacloud.order.queue", order);
     }
 
     private Message addOrderSource(Message message) throws JMSException {

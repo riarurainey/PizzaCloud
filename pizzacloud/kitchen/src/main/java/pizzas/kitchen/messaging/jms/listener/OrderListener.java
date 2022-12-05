@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 import pizzas.kitchen.KitchenUi;
-import pizzas.PizzaOrder;
+import pizzas.Order;
 
 @Profile("jms-listener")
 @Component
@@ -16,8 +16,8 @@ public class OrderListener {
     }
 
     @JmsListener(destination = "pizzacloud.order.queue")
-    public void receiveOrder(PizzaOrder pizzaOrder) {
-        ui.displayOrder(pizzaOrder);
+    public void receiveOrder(Order order) {
+        ui.displayOrder(order);
     }
 
 

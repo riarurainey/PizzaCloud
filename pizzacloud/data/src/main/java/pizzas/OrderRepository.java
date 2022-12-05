@@ -5,8 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface OrderRepository extends CrudRepository<PizzaOrder, Long> {
+public interface OrderRepository extends CrudRepository<Order, Long> {
 
-    List<PizzaOrder> findByUserOrderByPlacedAtDesc(User user, Pageable pageable);
+    List<Order> findByUserOrderByPlacedAtDesc(User user, Pageable pageable);
 
 }

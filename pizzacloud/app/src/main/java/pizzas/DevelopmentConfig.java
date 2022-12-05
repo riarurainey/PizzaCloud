@@ -20,7 +20,8 @@ public class DevelopmentConfig {
                                         UserRepository userRepository,
                                         PasswordEncoder passwordEncoder,
                                         PizzaRepository pizzaRepository,
-                                        OrderRepository orderRepository) {
+                                        OrderRepository orderRepository,
+                                        PaymentMethodRepository paymentMethodRepository) {
         return args -> {
 
             Ingredient crustClassic = new Ingredient("CLS", "Classic Crust", Ingredient.Type.WRAP);
@@ -59,8 +60,10 @@ public class DevelopmentConfig {
 
             User user = new User("pizza_user", passwordEncoder.encode("pizza_pass"),
                     "Pizza User", "Pizza Street", "Pizza City", "PZ",
-                    "11111", "111-111-1111");
+                    "11111", "111-111-1111", "pizza-test@gmail.com");
             userRepository.save(user);
+            paymentMethodRepository.save(new PaymentMethod(user, "4111111111111111", "321", "10/25"));
+
 
             Pizza pizza1 = new Pizza();
             pizza1.setName("4 Cheese");
@@ -79,20 +82,16 @@ public class DevelopmentConfig {
             pizza3.setIngredients(List.of(crustClassic, dicedTomatoes, mozzarella, tomatoSauce));
             pizzaRepository.save(pizza3);
 
-            PizzaOrder pizzaOrder = new PizzaOrder();
-            pizzaOrder.setPizzas(new ArrayList<>());
-
-            pizzaOrder.setUser(user);
-            pizzaOrder.setDeliveryName(user.getUsername());
-            pizzaOrder.setDeliveryStreet(user.getStreet());
-            pizzaOrder.setDeliveryCity(user.getCity());
-            pizzaOrder.setDeliveryState(user.getState());
-            pizzaOrder.setDeliveryZip(user.getZip());
-            pizzaOrder.setCcNumber("4878667725907502");
-            pizzaOrder.setCcExpiration("11/24");
-            pizzaOrder.setCcCVV("111");
-            pizzaOrder.setPlacedAt(Date.from(Instant.now()));
-            orderRepository.save(pizzaOrder);
+            Order order = new Order();
+            order.setPizzas(new ArrayList<>());
+            order.setUser(user);
+            order.setDeliveryName(user.getUsername());
+            order.setDeliveryStreet(user.getStreet());
+            order.setDeliveryCity(user.getCity());
+            order.setDeliveryState(user.getState());
+            order.setDeliveryZip(user.getZip());
+            order.setPlacedAt(Date.from(Instant.now()));
+            orderRepository.save(order);
 
 
         };

@@ -3,7 +3,7 @@ package pizzas.kitchen.messaging.rabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import pizzas.PizzaOrder;
+import pizzas.Order;
 import pizzas.kitchen.OrderReceiver;
 
 @Profile("rabbitmq-template")
@@ -15,7 +15,7 @@ public class RabbitOrderReceiver implements OrderReceiver {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public PizzaOrder receiveOrder() {
-        return (PizzaOrder) rabbitTemplate.receiveAndConvert("pizzacloud.order.queue");
+    public Order receiveOrder() {
+        return (Order) rabbitTemplate.receiveAndConvert("pizzacloud.order.queue");
     }
 }

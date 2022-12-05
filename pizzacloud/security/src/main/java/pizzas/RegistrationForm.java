@@ -15,10 +15,11 @@ public class RegistrationForm {
     private final String state;
     private final String zip;
     private final String phone;
+    private final String email;
 
     public User toUser(PasswordEncoder passwordEncoder) {
         return new User(
                 username, passwordEncoder.encode(password),
-                fullname, street, city, state, zip, phone);
+                fullname, street, city, state, zip, phone, email);
     }
 }

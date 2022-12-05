@@ -29,7 +29,6 @@ public class IngredientController {
         return ingredientRepository.findById(id);
     }
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Ingredient saveIngredient(@RequestBody Ingredient ingredient) {
