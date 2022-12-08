@@ -1,19 +1,17 @@
 package pizzas;
 
 import lombok.*;
-
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@NoArgsConstructor
-@RequiredArgsConstructor
-@EqualsAndHashCode(exclude = "id")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
+@Document
 public class Ingredient {
 
     @Id
-    private Long id;
-    @NonNull
-    private String slug;
+    private String id;
     @NonNull
     private String name;
     @NonNull

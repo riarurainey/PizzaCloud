@@ -15,42 +15,26 @@ import reactor.core.publisher.Mono;
 public class PizzaController {
 
     private final PizzaRepository pizzaRepository;
-    private final IngredientRepository ingredientRepository;
 
-    public PizzaController(PizzaRepository pizzaRepository, IngredientRepository ingredientRepository) {
+    public PizzaController(PizzaRepository pizzaRepository) {
         this.pizzaRepository = pizzaRepository;
-        this.ingredientRepository = ingredientRepository;
+
     }
 
     @GetMapping(params = "recent")
-    public Flux<PizzaView> recentPizza() {
-        return pizzaRepository
-                .findAll()
-                .take(12)
-                .map(pizza -> {
-                    PizzaView pizzaView =
-                            new PizzaView(pizza.getId(), pizza.getName());
-                    pizza.getIngredientIds()
-                            .forEach(ingredientId -> {
-                                ingredientRepository.findById(ingredientId)
-                                        .subscribe(pizzaView::addIngredient);
-                            });
-                    return pizzaView;
-                });
+    public Flux<Pizza> recentPizza() {
+        return pizzaRepository.findAll().take(12);
     }
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Pizza> postPizza(@RequestBody PizzaView pizzaView) {
-        Pizza pizza = new Pizza(pizzaView.getName());
-        for (Ingredient ingredient : pizzaView.getIngredients()) {
-            pizza.addIngredient(ingredient);
-        }
-        return pizzaRepository.save(pizza);
+    public Mono<Pizza> postPizza(@RequestBody Mono<Pizza> pizzaMono) {
+       return pizzaRepository.saveAll(pizzaMono).next();
+
     }
 
     @GetMapping("/{id}")
-    public Mono<Pizza> getPizzaById(@PathVariable("id") Long id) {
+    public Mono<Pizza> getPizzaById(@PathVariable String id) {
         return pizzaRepository.findById(id);
     }
 

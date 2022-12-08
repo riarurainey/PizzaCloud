@@ -22,7 +22,9 @@ public class EmailOrderService {
     private final IngredientRepository ingredientRepository;
     private final PaymentMethodRepository paymentMethodRepository;
 
-    public EmailOrderService(UserRepository userRepository, IngredientRepository ingredientRepository, PaymentMethodRepository paymentMethodRepository) {
+    public EmailOrderService(UserRepository userRepository,
+                             IngredientRepository ingredientRepository,
+                             PaymentMethodRepository paymentMethodRepository) {
         this.userRepository = userRepository;
         this.ingredientRepository = ingredientRepository;
         this.paymentMethodRepository = paymentMethodRepository;

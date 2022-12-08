@@ -17,16 +17,15 @@ public class OrderApiController {
     private final OrderRepository orderRepository;
     private final OrderMessagingService messageService;
     private final EmailOrderService emailOrderService;
-    private final PizzaOrderAggregateService aggregateService;
 
     public OrderApiController(OrderRepository orderRepository,
                               OrderMessagingService messageService,
-                              EmailOrderService emailOrderService,
-                              PizzaOrderAggregateService aggregateService) {
+                              EmailOrderService emailOrderService
+                           ) {
         this.orderRepository = orderRepository;
         this.messageService = messageService;
         this.emailOrderService = emailOrderService;
-        this.aggregateService = aggregateService;
+
     }
 
     @GetMapping(produces = "application/json")
@@ -38,7 +37,7 @@ public class OrderApiController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Order> postOrder(@RequestBody Order order) {
         messageService.sendOrder(order);
-        return aggregateService.save(order);
+        return orderRepository.save(order);
     }
 
     @PostMapping(path = "fromEmail", consumes = "application/json")
@@ -55,7 +54,7 @@ public class OrderApiController {
     }
 
     @PatchMapping(path = "/{orderId}", consumes = "application/json")
-    public Mono<Order> patchOrder(@PathVariable("orderId") Long orderId,
+    public Mono<Order> patchOrder(String orderId,
                                   @RequestBody Order patchOrder) {
 
         return orderRepository.findById(orderId)
@@ -93,7 +92,7 @@ public class OrderApiController {
 
     @DeleteMapping("/{orderId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteOrder(@PathVariable("orderId") Long orderId) {
+    public void deleteOrder(@PathVariable String orderId) {
         try {
             orderRepository.deleteById(orderId);
         } catch (EmptyResultDataAccessException ignored) {

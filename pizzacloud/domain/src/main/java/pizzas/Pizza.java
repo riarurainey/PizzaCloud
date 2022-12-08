@@ -1,30 +1,37 @@
 package pizzas;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.NonNull;
-
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.rest.core.annotation.RestResource;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
-@RequiredArgsConstructor
-
+@RestResource(rel = "pizzas", path = "pizzas")
+@Document
 public class Pizza {
 
     @Id
-    private Long id;
-    @NonNull
+    private String id;
+
+    @NotNull
+    @Size(min = 5, message = "Name must be at least 5 characters long")
     private String name;
 
-    private Set<Long> ingredientIds = new HashSet<>();
+    private Date createdAt = new Date();
+
+    @NotNull
+    @Size(min = 1, message = "You must choose at least 1 ingredient")
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     public void addIngredient(Ingredient ingredient) {
-        ingredientIds.add(ingredient.getId());
+        this.ingredients.add(ingredient);
+
     }
 
 }
