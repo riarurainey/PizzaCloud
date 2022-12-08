@@ -3,7 +3,7 @@ package pizzas;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
+import org.springframework.boot.test.autoconfigure.data.cassandra.DataCassandraTest;
 import pizzas.Ingredient.Type;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataR2dbcTest
+@DataCassandraTest
 public class IngredientRepositoryTest {
 
     @Autowired

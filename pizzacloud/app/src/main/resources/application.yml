@@ -3,6 +3,11 @@ spring:
   data:
     rest:
       base-path: /data-api
+    cassandra:
+      keyspace-name: pizzacloud
+      schema-action: recreate
+      local-datacenter: datacenter1
+
 
 security:
     user:
