@@ -13,7 +13,7 @@
     <parent>
         <groupId>sia</groupId>
         <artifactId>pizza-cloud-parent</artifactId>
-        <version>0.0.10-SNAPSHOT</version>
+        <version>0.0.12-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -38,20 +38,21 @@
 
         <dependency>
             <groupId>sia</groupId>
-            <artifactId>messaging-common</artifactId>
+            <artifactId>messaging-noop</artifactId>
             <version>${pizzacloud.version}</version>
         </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>sia</groupId>-->
 <!--            <artifactId>messaging-jms</artifactId>-->
 <!--            <version>${pizzacloud.version}</version>-->
 <!--        </dependency>-->
-        <dependency>
-            <groupId>sia</groupId>
-            <artifactId>messaging-rabbitmq</artifactId>
-            <version>${pizzacloud.version}</version>
-        </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>sia</groupId>-->
+<!--            <artifactId>messaging-rabbitmq</artifactId>-->
+<!--            <version>${pizzacloud.version}</version>-->
+<!--        </dependency>-->
 
 <!--        <dependency>-->
 <!--            <groupId>sia</groupId>-->
@@ -61,7 +62,7 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
         <dependency>
@@ -73,6 +74,23 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

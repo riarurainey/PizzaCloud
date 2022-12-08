@@ -13,7 +13,6 @@ import java.util.Map;
 
 @Configuration
 public class MessagingConfig {
-
     @Bean
     public MappingJackson2MessageConverter messageConverter() {
         MappingJackson2MessageConverter messageConverter =

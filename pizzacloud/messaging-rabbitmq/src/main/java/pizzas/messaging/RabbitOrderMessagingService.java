@@ -7,7 +7,6 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import pizzas.Order;
-import pizzas.messaging.pizzas.messaging.OrderMessagingService;
 
 
 @Service

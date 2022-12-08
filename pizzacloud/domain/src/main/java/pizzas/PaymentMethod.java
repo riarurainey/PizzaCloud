@@ -5,18 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
 
-@Entity
 @Data
-@NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
+@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class PaymentMethod {
-    @Id
-    @GeneratedValue
-    private long id;
 
-    @ManyToOne
+    @Id
+    private long id;
     private final User user;
     private final String ccNumber;
     private final String ccCVV;

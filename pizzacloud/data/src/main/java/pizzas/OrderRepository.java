@@ -1,12 +1,6 @@
 package pizzas;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-import java.util.List;
-
-public interface OrderRepository extends CrudRepository<Order, Long> {
-
-    List<Order> findByUserOrderByPlacedAtDesc(User user, Pageable pageable);
-
+public interface OrderRepository extends ReactiveCrudRepository<Order, Long> {
 }

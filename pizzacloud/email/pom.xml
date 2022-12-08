@@ -12,14 +12,11 @@
     <parent>
         <artifactId>pizza-cloud-parent</artifactId>
         <groupId>sia</groupId>
-        <version>0.0.10-SNAPSHOT</version>
+        <version>0.0.12-SNAPSHOT</version>
     </parent>
 
-    <properties>
-        <java.version>17</java.version>
-    </properties>
-
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-integration</artifactId>
@@ -62,6 +59,7 @@
             <artifactId>commons-text</artifactId>
             <version>1.2</version>
         </dependency>
+
     </dependencies>
 
     <build>

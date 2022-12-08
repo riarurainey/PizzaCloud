@@ -1,6 +1,6 @@
 package pizzas;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
-public interface PizzaRepository extends PagingAndSortingRepository<Pizza, Long> {
+public interface PizzaRepository extends ReactiveCrudRepository<Pizza, Long> {
 }

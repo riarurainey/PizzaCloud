@@ -1,52 +1,57 @@
 package pizzas.web.api;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pizzas.Ingredient;
+import pizzas.IngredientRepository;
 import pizzas.Pizza;
 import pizzas.PizzaRepository;
-
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(path = "/api/pizzas", produces = "application/json")
-@CrossOrigin(origins="http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8080")
 public class PizzaController {
 
     private final PizzaRepository pizzaRepository;
+    private final IngredientRepository ingredientRepository;
 
-    public PizzaController(PizzaRepository pizzaRepository) {
+    public PizzaController(PizzaRepository pizzaRepository, IngredientRepository ingredientRepository) {
         this.pizzaRepository = pizzaRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @GetMapping(params = "recent")
-    public Iterable<Pizza> recentPizza() {
-        PageRequest page = PageRequest.of(
-                0, 12, Sort.by("createdAt").descending());
-        return pizzaRepository.findAll(page).getContent();
+    public Flux<PizzaView> recentPizza() {
+        return pizzaRepository
+                .findAll()
+                .take(12)
+                .map(pizza -> {
+                    PizzaView pizzaView =
+                            new PizzaView(pizza.getId(), pizza.getName());
+                    pizza.getIngredientIds()
+                            .forEach(ingredientId -> {
+                                ingredientRepository.findById(ingredientId)
+                                        .subscribe(pizzaView::addIngredient);
+                            });
+                    return pizzaView;
+                });
     }
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Pizza postPizza(@RequestBody Pizza pizza) {
+    public Mono<Pizza> postPizza(@RequestBody PizzaView pizzaView) {
+        Pizza pizza = new Pizza(pizzaView.getName());
+        for (Ingredient ingredient : pizzaView.getIngredients()) {
+            pizza.addIngredient(ingredient);
+        }
         return pizzaRepository.save(pizza);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pizza> getPizzaById(@PathVariable("id") Long id) {
-        Optional<Pizza> pizza = pizzaRepository.findById(id);
-
-        return pizza.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+    public Mono<Pizza> getPizzaById(@PathVariable("id") Long id) {
+        return pizzaRepository.findById(id);
     }
 
 }

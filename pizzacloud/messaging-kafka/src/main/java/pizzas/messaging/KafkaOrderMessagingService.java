@@ -3,7 +3,6 @@ package pizzas.messaging;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import pizzas.Order;
-import pizzas.messaging.pizzas.messaging.OrderMessagingService;
 
 @Service
 public class KafkaOrderMessagingService implements OrderMessagingService {

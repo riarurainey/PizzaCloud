@@ -19,16 +19,13 @@ import java.util.List;
 public class EmailToOrderTransformer extends AbstractMailMessageTransformer<EmailOrder> {
 
     private static final Logger log = LoggerFactory.getLogger(EmailToOrderTransformer.class);
-
     private static final String SUBJECT_KEYWORDS = "PIZZA ORDER";
-
 
     @Override
     protected AbstractIntegrationMessageBuilder<EmailOrder> doTransform(Message message) {
         EmailOrder pizzaOrder = processPayload(message);
         return MessageBuilder.withPayload(pizzaOrder);
     }
-
 
     private EmailOrder processPayload(Message mailMessage) {
         try {

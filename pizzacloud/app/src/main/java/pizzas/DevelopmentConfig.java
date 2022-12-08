@@ -4,12 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import pizzas.Ingredient.Type;
 
 @Profile("!prod")
 @Configuration
@@ -17,83 +12,61 @@ public class DevelopmentConfig {
 
     @Bean
     public CommandLineRunner dataLoader(IngredientRepository repository,
-                                        UserRepository userRepository,
-                                        PasswordEncoder passwordEncoder,
-                                        PizzaRepository pizzaRepository,
-                                        OrderRepository orderRepository,
-                                        PaymentMethodRepository paymentMethodRepository) {
-        return args -> {
+                                        PizzaRepository pizzaRepository) {
+        return new CommandLineRunner() {
+            @Override
+            public void run(String... args) throws Exception {
+                Ingredient crustClassic = saveAnIngredient("CLS", "Classic Crust", Type.WRAP);
+                Ingredient crustThin = saveAnIngredient("THN", "Thin Crust", Type.WRAP);
+                Ingredient chorizo = saveAnIngredient("CHRZ", "Chorizo", Type.PROTEIN);
+                Ingredient pepperoni = saveAnIngredient("PEP", "Pepperoni", Type.PROTEIN);
+                Ingredient dicedTomatoes = saveAnIngredient("TMTO", "Diced Tomatoes", Type.VEGGIES);
+                Ingredient onion = saveAnIngredient("ON", "Onion", Type.VEGGIES);
+                Ingredient bulgarPepper = saveAnIngredient("BLG", "Bulgarian pepper", Type.VEGGIES);
+                Ingredient olive = saveAnIngredient("OLV", "Olive", Type.VEGGIES);
+                Ingredient cheddar = saveAnIngredient("CHED", "Cheddar", Type.CHEESE);
+                Ingredient mozzarella = saveAnIngredient("MOZ", "Mozzarella", Type.CHEESE);
+                Ingredient parmesan = saveAnIngredient("PAR", "Parmesan", Type.CHEESE);
+                Ingredient danishBlue = saveAnIngredient("DRB", "Danish blue", Type.CHEESE);
+                Ingredient feta = saveAnIngredient("FET", "Feta", Type.CHEESE);
+                Ingredient ranch = saveAnIngredient("RNC", "Ranch", Type.CHEESE);
+                Ingredient tomatoSauce = saveAnIngredient("TMT", "Tomato Sauce", Type.SAUCE);
+                Ingredient mustardSauce = saveAnIngredient("MSTR", "Mustard sauce", Type.SAUCE);
 
-            Ingredient crustClassic = new Ingredient("CLS", "Classic Crust", Ingredient.Type.WRAP);
-            Ingredient crustThin = new Ingredient("THN", "Thin Crust", Ingredient.Type.WRAP);
-            Ingredient chorizo = new Ingredient("CHRZ", "Chorizo", Ingredient.Type.PROTEIN);
-            Ingredient pepperoni = new Ingredient("PEP", "Pepperoni", Ingredient.Type.PROTEIN);
-            Ingredient dicedTomatoes = new Ingredient("TMTO", "Diced Tomatoes", Ingredient.Type.VEGGIES);
-            Ingredient onion = new Ingredient("ON", "Onion", Ingredient.Type.VEGGIES);
-            Ingredient bulgarPepper = new Ingredient("BLG", "Bulgarian pepper", Ingredient.Type.VEGGIES);
-            Ingredient olive = new Ingredient("OLV", "Olive", Ingredient.Type.VEGGIES);
-            Ingredient cheddar = new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE);
-            Ingredient mozzarella = new Ingredient("MOZ", "Mozzarella", Ingredient.Type.CHEESE);
-            Ingredient parmesan = new Ingredient("PAR", "Parmesan", Ingredient.Type.CHEESE);
-            Ingredient danishBlue = new Ingredient("DRB", "Danish blue", Ingredient.Type.CHEESE);
-            Ingredient feta = new Ingredient("FET", "Feta", Ingredient.Type.CHEESE);
-            Ingredient ranch = new Ingredient("RNC", "Ranch", Ingredient.Type.CHEESE);
-            Ingredient tomatoSauce = new Ingredient("TMT", "Tomato Sauce", Ingredient.Type.SAUCE);
-            Ingredient mustardSauce = new Ingredient("MSTR", "Mustard sauce", Ingredient.Type.SAUCE);
+                Pizza pizza1 = new Pizza();
+                pizza1.setName("4 Cheese");
 
-            repository.save(crustClassic);
-            repository.save(crustThin);
-            repository.save(chorizo);
-            repository.save(pepperoni);
-            repository.save(dicedTomatoes);
-            repository.save(onion);
-            repository.save(bulgarPepper);
-            repository.save(olive);
-            repository.save(cheddar);
-            repository.save(mozzarella);
-            repository.save(parmesan);
-            repository.save(danishBlue);
-            repository.save(feta);
-            repository.save(ranch);
-            repository.save(tomatoSauce);
-            repository.save(mustardSauce);
-
-            User user = new User("pizza_user", passwordEncoder.encode("pizza_pass"),
-                    "Pizza User", "Pizza Street", "Pizza City", "PZ",
-                    "11111", "111-111-1111", "pizza-test@gmail.com");
-            userRepository.save(user);
-            paymentMethodRepository.save(new PaymentMethod(user, "4111111111111111", "321", "10/25"));
+                pizza1.addIngredient(crustThin);
+                pizza1.addIngredient(cheddar);
+                pizza1.addIngredient(mozzarella);
+                pizza1.addIngredient(feta);
+                pizza1.addIngredient(danishBlue);
+                pizzaRepository.save(pizza1).subscribe();
 
 
-            Pizza pizza1 = new Pizza();
-            pizza1.setName("4 Cheese");
-            pizza1.setIngredients(List.of(crustThin, cheddar, mozzarella, feta, danishBlue));
-            pizzaRepository.save(pizza1);
+                Pizza pizza2 = new Pizza();
+                pizza2.setName("Pepperoni");
+                pizza2.addIngredient(crustClassic);
+                pizza2.addIngredient(pepperoni);
+                pizza2.addIngredient(mozzarella);
+                pizza2.addIngredient(tomatoSauce);
+                pizzaRepository.save(pizza2).subscribe();
 
 
-            Pizza pizza2 = new Pizza();
-            pizza2.setName("Pepperoni");
-            pizza2.setIngredients(List.of(crustClassic, pepperoni, mozzarella, tomatoSauce));
-            pizzaRepository.save(pizza2);
+                Pizza pizza3 = new Pizza();
+                pizza3.setName("Margarita");
+                pizza3.addIngredient(crustClassic);
+                pizza3.addIngredient(dicedTomatoes);
+                pizza3.addIngredient(mozzarella);
+                pizza3.addIngredient(tomatoSauce);
+                pizzaRepository.save(pizza3).subscribe();
+            }
 
-
-            Pizza pizza3 = new Pizza();
-            pizza3.setName("Margarita");
-            pizza3.setIngredients(List.of(crustClassic, dicedTomatoes, mozzarella, tomatoSauce));
-            pizzaRepository.save(pizza3);
-
-            Order order = new Order();
-            order.setPizzas(new ArrayList<>());
-            order.setUser(user);
-            order.setDeliveryName(user.getUsername());
-            order.setDeliveryStreet(user.getStreet());
-            order.setDeliveryCity(user.getCity());
-            order.setDeliveryState(user.getState());
-            order.setDeliveryZip(user.getZip());
-            order.setPlacedAt(Date.from(Instant.now()));
-            orderRepository.save(order);
-
-
+            private Ingredient saveAnIngredient(String id, String name, Ingredient.Type type) {
+                Ingredient ingredient = new Ingredient(id, name, type);
+                repository.save(ingredient).subscribe();
+                return ingredient;
+            }
         };
     }
 }

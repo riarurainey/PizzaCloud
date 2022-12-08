@@ -13,7 +13,7 @@
     <parent>
         <groupId>sia</groupId>
         <artifactId>pizza-cloud-parent</artifactId>
-        <version>0.0.10-SNAPSHOT</version>
+        <version>0.0.12-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -21,13 +21,13 @@
         <dependency>
             <groupId>sia</groupId>
             <artifactId>data</artifactId>
-            <version>${pizzacloud.version}</version>
+            <version>0.0.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>sia</groupId>
             <artifactId>domain</artifactId>
-            <version>${pizzacloud.version}</version>
+            <version>0.0.12-SNAPSHOT</version>
         </dependency>
 
         <dependency>

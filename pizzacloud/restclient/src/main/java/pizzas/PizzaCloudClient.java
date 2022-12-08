@@ -12,7 +12,7 @@ import java.util.List;
 @Slf4j
 public class PizzaCloudClient {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public PizzaCloudClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

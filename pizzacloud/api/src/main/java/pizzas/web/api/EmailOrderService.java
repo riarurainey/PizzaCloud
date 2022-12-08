@@ -1,14 +1,20 @@
 package pizzas.web.api;
 
 import org.springframework.stereotype.Service;
-import pizzas.*;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
+import pizzas.Ingredient;
+import pizzas.PaymentMethod;
+import pizzas.User;
+import pizzas.Pizza;
+import pizzas.IngredientRepository;
+import pizzas.PaymentMethodRepository;
+import pizzas.UserRepository;
+import pizzas.Order;
 
 import pizzas.web.api.EmailOrder.EmailPizza;
+import reactor.core.publisher.Mono;
 
 @Service
 public class EmailOrderService {
@@ -22,35 +28,47 @@ public class EmailOrderService {
         this.paymentMethodRepository = paymentMethodRepository;
     }
 
-    public Order convertEmailOrderToDomainOrder(EmailOrder emailOrder) {
-        User user = userRepository.findByEmail(emailOrder.getEmail());
-        PaymentMethod paymentMethod = paymentMethodRepository.findByUserId(user.getId());
+    public Mono<Order> convertEmailOrderToDomainOrder(Mono<EmailOrder> emailOrder) {
 
-        Order order = new Order();
-        order.setUser(user);
-        order.setCcNumber(paymentMethod.getCcNumber());
-        order.setCcCVV(paymentMethod.getCcCVV());
-        order.setCcExpiration(paymentMethod.getCcExpiration());
-        order.setDeliveryName(user.getFullname());
-        order.setDeliveryStreet(user.getStreet());
-        order.setDeliveryCity(user.getCity());
-        order.setDeliveryState(user.getState());
-        order.setDeliveryZip(user.getZip());
-        order.setPlacedAt(new Date());
+        return emailOrder.flatMap(eOrder -> {
+            Mono<User> userMono = userRepository.findByEmail(eOrder.getEmail());
 
-        List<EmailPizza> emailPizzas = emailOrder.getPizzas();
-        for (EmailPizza emailPizza : emailPizzas) {
-            Pizza pizza = new Pizza();
-            pizza.setName(emailPizza.getName());
-            List<String> ingredientsIds = emailPizza.getIngredients();
-            List<Ingredient> ingredients = new ArrayList<>();
-            for (String ingredientId : ingredientsIds) {
-                Optional<Ingredient> optionalIngredient = ingredientRepository.findById(ingredientId);
-                optionalIngredient.ifPresent(ingredients::add);
-            }
-            pizza.setIngredients(ingredients);
-            order.addPizza(pizza);
-        }
-        return order;
+            Mono<PaymentMethod> paymentMono = userMono.flatMap(user -> {
+                return paymentMethodRepository.findByUserId(user.getId());
+            });
+            return Mono.zip(userMono, paymentMono)
+                    .flatMap(tuple -> {
+                        User user = tuple.getT1();
+                        PaymentMethod paymentMethod = tuple.getT2();
+                        Order order = new Order();
+                        order.setCcNumber(paymentMethod.getCcNumber());
+                        order.setCcCVV(paymentMethod.getCcCVV());
+                        order.setCcExpiration(paymentMethod.getCcExpiration());
+                        order.setDeliveryName(user.getFullname());
+                        order.setDeliveryStreet(user.getStreet());
+                        order.setDeliveryCity(user.getCity());
+                        order.setDeliveryState(user.getState());
+                        order.setDeliveryZip(user.getZip());
+
+                        return emailOrder.map(eOrd -> {
+                            List<EmailPizza> emailPizzas = eOrd.getPizzas();
+                            for (EmailPizza emailPizza : emailPizzas) {
+                                Pizza pizza = new Pizza();
+                                pizza.setName(emailPizza.getName());
+
+                                List<String> ingredientIds = emailPizza.getIngredients();
+                                for (String ingredientId : ingredientIds) {
+                                    Mono<Ingredient> ingredientMono = ingredientRepository.findBySlug(ingredientId);
+                                    ingredientMono.subscribe(ingredient ->
+                                            pizza.addIngredient(ingredient));
+                                }
+                                order.addPizza(pizza);
+                            }
+                            return order;
+                        });
+
+                    });
+        });
+
     }
 }
