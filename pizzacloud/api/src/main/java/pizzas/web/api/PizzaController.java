@@ -29,7 +29,7 @@ public class PizzaController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Pizza> postPizza(@RequestBody Mono<Pizza> pizzaMono) {
-       return pizzaRepository.saveAll(pizzaMono).next();
+        return pizzaRepository.saveAll(pizzaMono).next();
 
     }
 

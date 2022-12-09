@@ -32,7 +32,7 @@ public class IngredientController {
 
     @GetMapping("/{id}")
     public Mono<Ingredient> getIngredientById(@PathVariable("id") String id) {
-        return ingredientRepository.findBySlug(id);
+        return ingredientRepository.findById(id);
     }
 
     @PostMapping
@@ -43,7 +43,7 @@ public class IngredientController {
                 .map(i -> {
                     HttpHeaders headers = new HttpHeaders();
                     headers.setLocation(URI.create("http://localhost:8080/ingredients" + i.getId()));
-                    return new ResponseEntity<Ingredient>(i, headers, HttpStatus.CREATED);
+                    return new ResponseEntity<>(i, headers, HttpStatus.CREATED);
                 });
     }
 
@@ -60,7 +60,7 @@ public class IngredientController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteIngredient(@PathVariable String id) {
-        ingredientRepository.findBySlug(id)
+        ingredientRepository.findById(id)
                 .doOnNext(ingredientRepository::delete)
                 .subscribe();
 

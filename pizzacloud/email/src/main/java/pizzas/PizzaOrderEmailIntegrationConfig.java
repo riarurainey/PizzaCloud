@@ -14,8 +14,7 @@ public class PizzaOrderEmailIntegrationConfig {
     public StandardIntegrationFlow pizzaOrderEmailFlow(
             EmailProperties emailProp,
             EmailToOrderTransformer emailToOrderTransformer,
-            OrderSubmitMessageHandler orderSubmitHandler
-    ) {
+            OrderSubmitMessageHandler orderSubmitHandler) {
         return IntegrationFlows
                 .from(Mail.imapInboundAdapter(emailProp.getImapUrl()),
                         e -> e.poller(

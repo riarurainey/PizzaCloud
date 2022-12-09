@@ -3,6 +3,7 @@ package pizzas;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import pizzas.Ingredient.Type;
 import reactor.core.publisher.Flux;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataR2dbcTest
+@DataMongoTest
 public class IngredientRepositoryTest {
 
     @Autowired
@@ -25,7 +26,7 @@ public class IngredientRepositoryTest {
                         Flux.just(new Ingredient("CLS", "Classic Crust", Type.WRAP),
                                 new Ingredient("CHED", "Cheddar", Type.CHEESE),
                                 new Ingredient("PEP", "Pepperoni", Type.PROTEIN)
-                )));
+                        )));
 
         StepVerifier.create(deleteAndInsert)
                 .expectNextCount(3)
@@ -49,7 +50,7 @@ public class IngredientRepositoryTest {
                 })
                 .verifyComplete();
 
-        StepVerifier.create(ingredientRepository.findBySlug("CLS"))
+        StepVerifier.create(ingredientRepository.findById("CLS"))
                 .assertNext(ingredient -> {
                     ingredient.equals(new Ingredient("CLS", "Classic Crust", Type.WRAP));
                 });

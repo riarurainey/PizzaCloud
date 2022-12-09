@@ -60,9 +60,8 @@ public class EmailOrderService {
 
                                 List<String> ingredientIds = emailPizza.getIngredients();
                                 for (String ingredientId : ingredientIds) {
-                                    Mono<Ingredient> ingredientMono = ingredientRepository.findBySlug(ingredientId);
-                                    ingredientMono.subscribe(ingredient ->
-                                            pizza.addIngredient(ingredient));
+                                    Mono<Ingredient> ingredientMono = ingredientRepository.findById(ingredientId);
+                                    ingredientMono.subscribe(pizza::addIngredient);
                                 }
                                 order.addPizza(pizza);
                             }

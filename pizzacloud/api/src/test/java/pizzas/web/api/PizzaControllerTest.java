@@ -66,14 +66,16 @@ public class PizzaControllerTest {
     @Test
     public void shouldSavePizza() {
         PizzaRepository pizzaRepository = Mockito.mock(PizzaRepository.class);
-        Mono<Pizza> unsavedPizzaMono = Mono.just(testPizza(null));
-        Pizza savedPizza = testPizza(null);
-        Mono<Pizza> savedPizzaMono = Mono.just(savedPizza);
-
-        when(pizzaRepository.save(any())).thenReturn(savedPizzaMono);
 
         WebTestClient testClient = WebTestClient.bindToController(
                 new PizzaController(pizzaRepository)).build();
+
+        Mono<Pizza> unsavedPizzaMono = Mono.just(testPizza(1L));
+        Pizza savedPizza = testPizza(1L);
+        Flux<Pizza> savedPizzaMono = Flux.just(savedPizza);
+
+        when(pizzaRepository.saveAll(any(Mono.class))).thenReturn(savedPizzaMono);
+
 
         testClient.post()
                 .uri("/api/pizzas")

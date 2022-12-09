@@ -21,7 +21,7 @@ public class OrderApiController {
     public OrderApiController(OrderRepository orderRepository,
                               OrderMessagingService messageService,
                               EmailOrderService emailOrderService
-                           ) {
+    ) {
         this.orderRepository = orderRepository;
         this.messageService = messageService;
         this.emailOrderService = emailOrderService;

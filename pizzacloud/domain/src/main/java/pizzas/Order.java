@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -15,6 +16,9 @@ public class Order implements Serializable {
 
     @Id
     private String id;
+    private Date placedAt = new Date();
+
+    private User user;
     private String deliveryName;
     private String deliveryStreet;
     private String deliveryCity;
