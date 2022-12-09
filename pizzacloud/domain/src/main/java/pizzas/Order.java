@@ -21,9 +21,10 @@ public class Order implements Serializable {
 
     @PrimaryKey
     private UUID id = Uuids.timeBased();
-
     private Date placedAt = new Date();
 
+    @Column("user")
+    private UserUDT user;
     private String deliveryName;
     private String deliveryStreet;
     private String deliveryCity;

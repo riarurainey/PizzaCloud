@@ -2,8 +2,6 @@ package pizzas.web.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pizzas.Ingredient;
-import pizzas.IngredientRepository;
 import pizzas.Pizza;
 import pizzas.PizzaRepository;
 import reactor.core.publisher.Flux;
@@ -29,7 +27,7 @@ public class PizzaController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Pizza> postPizza(@RequestBody Mono<Pizza> pizzaMono) {
-       return pizzaRepository.saveAll(pizzaMono).next();
+       return pizzaMono.flatMap(pizzaRepository::save);
 
     }
 

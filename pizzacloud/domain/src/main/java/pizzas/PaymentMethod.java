@@ -1,22 +1,26 @@
 package pizzas;
 
+import com.datastax.oss.driver.api.core.uuid.Uuids;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
 
+import java.util.UUID;
+
+@Table("payment_method")
 @Data
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
+@NoArgsConstructor(force=true, access=AccessLevel.PRIVATE)
 @RequiredArgsConstructor
-@Document
 public class PaymentMethod {
 
-    @Id
-    private long id;
-    private final User user;
+    @PrimaryKeyColumn(type = PrimaryKeyType.PARTITIONED)
+    private UUID id = Uuids.timeBased();
+    private final UserUDT user;
     private final String ccNumber;
     private final String ccCVV;
     private final String ccExpiration;

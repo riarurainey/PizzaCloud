@@ -9,6 +9,8 @@ import pizzas.messaging.OrderMessagingService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 
 @RestController
 @RequestMapping(path = "/api/orders", produces = "application/json")
@@ -54,7 +56,7 @@ public class OrderApiController {
     }
 
     @PatchMapping(path = "/{orderId}", consumes = "application/json")
-    public Mono<Order> patchOrder(String orderId,
+    public Mono<Order> patchOrder(UUID orderId,
                                   @RequestBody Order patchOrder) {
 
         return orderRepository.findById(orderId)
@@ -92,7 +94,7 @@ public class OrderApiController {
 
     @DeleteMapping("/{orderId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteOrder(@PathVariable String orderId) {
+    public void deleteOrder(@PathVariable UUID orderId) {
         try {
             orderRepository.deleteById(orderId);
         } catch (EmptyResultDataAccessException ignored) {

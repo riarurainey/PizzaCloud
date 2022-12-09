@@ -1,0 +1,6 @@
+spring:
+  data:
+    cassandra:
+      keyspace-name: pizzacloud
+      schema-action: recreate
+      local-datacenter: datacenter1

@@ -5,6 +5,7 @@ import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import pizzas.Ingredient;
+import pizzas.IngredientUDT;
 import pizzas.Pizza;
 import pizzas.PizzaRepository;
 import reactor.core.publisher.Flux;
@@ -12,6 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -52,11 +54,11 @@ public class PizzaControllerTest {
                 .expectBody()
                 .jsonPath("$").isArray()
                 .jsonPath("$").isNotEmpty()
-                .jsonPath("$[0].id").isEqualTo(pizzas[0].getId())
+                .jsonPath("$[0].id").isEqualTo(pizzas[0].getId().toString())
                 .jsonPath("$[0].name").isEqualTo("Pizza 1")
-                .jsonPath("$[1].id").isEqualTo(pizzas[1].getId())
+                .jsonPath("$[1].id").isEqualTo(pizzas[1].getId().toString())
                 .jsonPath("$[1].name").isEqualTo("Pizza 2")
-                .jsonPath("$[11].id").isEqualTo(pizzas[11].getId())
+                .jsonPath("$[11].id").isEqualTo(pizzas[11].getId().toString())
                 .jsonPath("$[11].name").isEqualTo("Pizza 12")
                 .jsonPath("$[12]").doesNotExist();
 
@@ -89,11 +91,11 @@ public class PizzaControllerTest {
 
     private Pizza testPizza(Long number) {
         Pizza pizza = new Pizza();
-        pizza.setId(number != null ? number.toString() : "TESTID");
+        pizza.setId(UUID.randomUUID());
         pizza.setName("Pizza " + number);
-        List<Ingredient> ingredients = new ArrayList<>();
-        Ingredient ingredientA = new Ingredient("INGA", "Ingredient A", Ingredient.Type.WRAP);
-        Ingredient ingredientB = new Ingredient("INGB", "Ingredient B", Ingredient.Type.PROTEIN);
+        List<IngredientUDT> ingredients = new ArrayList<>();
+        IngredientUDT ingredientA = new IngredientUDT("Ingredient A", Ingredient.Type.WRAP);
+        IngredientUDT ingredientB = new IngredientUDT("Ingredient B", Ingredient.Type.PROTEIN);
         ingredients.add(
                 ingredientA);
         ingredients.add(

@@ -49,7 +49,7 @@ public class IngredientRepositoryTest {
                 })
                 .verifyComplete();
 
-        StepVerifier.create(ingredientRepository.findBySlug("CLS"))
+        StepVerifier.create(ingredientRepository.findById("CLS"))
                 .assertNext(ingredient -> {
                     ingredient.equals(new Ingredient("CLS", "Classic Crust", Type.WRAP));
                 });
