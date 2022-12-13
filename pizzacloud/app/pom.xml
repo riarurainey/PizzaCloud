@@ -13,8 +13,12 @@
     <parent>
         <groupId>sia</groupId>
         <artifactId>pizza-cloud-parent</artifactId>
-        <version>0.0.15-SNAPSHOT</version>
+        <version>0.0.17-SNAPSHOT</version>
     </parent>
+
+    <properties>
+        <spring-boot-admin.version>2.4.3</spring-boot-admin.version>
+    </properties>
 
     <dependencies>
 
@@ -39,6 +43,12 @@
         <dependency>
             <groupId>sia</groupId>
             <artifactId>api</artifactId>
+            <version>${pizzacloud.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>sia</groupId>
+            <artifactId>jmx</artifactId>
             <version>${pizzacloud.version}</version>
         </dependency>
 

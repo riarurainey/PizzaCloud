@@ -13,7 +13,7 @@
     <parent>
         <groupId>sia</groupId>
         <artifactId>pizza-cloud-parent</artifactId>
-        <version>0.0.15-SNAPSHOT</version>
+        <version>0.0.17-SNAPSHOT</version>
     </parent>
 
     <dependencies>
@@ -42,23 +42,23 @@
             <version>${pizzacloud.version}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>sia</groupId>-->
-<!--            <artifactId>messaging-jms</artifactId>-->
-<!--            <version>${pizzacloud.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>sia</groupId>-->
+        <!--            <artifactId>messaging-jms</artifactId>-->
+        <!--            <version>${pizzacloud.version}</version>-->
+        <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>sia</groupId>-->
-<!--            <artifactId>messaging-rabbitmq</artifactId>-->
-<!--            <version>${pizzacloud.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>sia</groupId>-->
+        <!--            <artifactId>messaging-rabbitmq</artifactId>-->
+        <!--            <version>${pizzacloud.version}</version>-->
+        <!--        </dependency>-->
 
-<!--        <dependency>-->
-<!--            <groupId>sia</groupId>-->
-<!--            <artifactId>messaging-kafka</artifactId>-->
-<!--            <version>${pizzacloud.version}</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>sia</groupId>-->
+        <!--            <artifactId>messaging-kafka</artifactId>-->
+        <!--            <version>${pizzacloud.version}</version>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

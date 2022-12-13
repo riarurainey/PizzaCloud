@@ -5,7 +5,7 @@
 
     <groupId>sia</groupId>
     <artifactId>pizza-cloud-parent</artifactId>
-    <version>0.0.15-SNAPSHOT</version>
+    <version>0.0.17-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -34,6 +34,7 @@
         <module>messaging-noop</module>
         <module>messaging-kafka</module>
         <module>email</module>
+        <module>jmx</module>
 
     </modules>
 

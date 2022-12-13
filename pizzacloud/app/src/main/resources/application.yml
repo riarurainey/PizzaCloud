@@ -32,6 +32,8 @@ spring:
       keySerializer: org.springframework.kafka.support.serializer.JsonSerializer
       valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer
 
+  jmx:
+    enabled: true
 
 management:
   endpoints:
