@@ -11,7 +11,7 @@
     <parent>
         <groupId>sia</groupId>
         <artifactId>pizza-cloud-parent</artifactId>
-        <version>0.0.12-SNAPSHOT</version>
+        <version>0.0.15-SNAPSHOT</version>
     </parent>
     <dependencies>
 

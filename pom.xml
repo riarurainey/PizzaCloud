@@ -9,6 +9,7 @@
     <name>Pizza Cloud Parent Project</name>
     <modules>
         <module>pizzacloud</module>
+        <module>admin-server</module>
     </modules>
 
 </project>

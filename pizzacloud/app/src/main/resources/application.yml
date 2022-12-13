@@ -1,10 +1,56 @@
+security:
+  user:
+    name: user
+    password: password
 
 spring:
+  application:
+    name: pizza-cloud
   data:
     rest:
       base-path: /data-api
+    cassandra:
+      keyspace-name: pizzacloud
+      schema-action: recreate
 
-security:
-    user:
-      name: user
-      password: password
+  boot:
+    admin:
+      client:
+        url: http://localhost:9090
+        username: admin
+        password: 53cr3t
+        instance:
+          management-base-url: http://localhost:8080
+
+
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    template:
+      default-topic: pizzacloud.orders.topic
+    producer:
+      keySerializer: org.springframework.kafka.support.serializer.JsonSerializer
+      valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        exclude: threaddump,heapdump
+
+  endpoint:
+    health:
+      show-details: always
+
+  info:
+    git:
+      mode: full
+
+info:
+  contact:
+    email: support@pizzacloud.com
+    phone: 666-666-666
+
+
